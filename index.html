@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Malak ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', 'Cairo', sans-serif;
+            background-color: #fde8ed;
+            color: #4a2e35;
+        }
+
+        /* Container for scenes */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            padding: 20px;
+            text-align: center;
+            z-index: 1;
+            transform: scale(0.95);
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        /* Background Effects */
+        .bg-pink {
+            background: linear-gradient(135deg, #fde8ed 0%, #f7cad0 50%, #f4acb7 100%);
+        }
+
+        .bg-dark {
+            background: #110e13;
+            color: #fde8ed;
+        }
+
+        /* Particles canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top Hanging Balloons */
+        .top-balloons {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .top-balloon {
+            font-size: 2rem;
+            animation: floatSlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translateY(0px) rotate(-5deg); }
+            100% { transform: translateY(12px) rotate(5deg); }
+        }
+
+        /* Buttons */
+        .btn-custom {
+            background: #ffffff;
+            color: #d65a7f;
+            border: none;
+            padding: 14px 36px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(214, 90, 127, 0.25);
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1px;
+        }
+
+        .btn-custom:hover, .btn-custom:active {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(214, 90, 127, 0.35);
+            background: #fff0f3;
+        }
+
+        /* Inputs */
+        .input-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #f4acb7;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+            width: 260px;
+            margin: 15px 0;
+            outline: none;
+            color: #4a2e35;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: border-color 0.3s;
+        }
+
+        .input-box:focus {
+            border-color: #d65a7f;
+        }
+
+        /* Shake animation for wrong password */
+        .shake {
+            animation: shakeAnim 0.5s ease-in-out;
+        }
+
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        /* Typography & Styles */
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Lock Icon */
+        .lock-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+
+        /* Wide Gift Card with Bow (Scene 5) */
+        .gift-wide-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border-radius: 25px;
+            padding: 35px 25px 25px 25px;
+            box-shadow: 0 15px 35px rgba(214, 90, 127, 0.2);
+            border: 3px solid #ffffff;
+            width: 95%;
+            max-width: 440px;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        /* Golden/Pink Ribbon Bow on Top */
+        .gift-bow {
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3.2rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+        }
+
+        /* 3-Digit Counter Grid */
+        .counter-grid {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+            direction: ltr;
+        }
+
+        .counter-box {
+            background: linear-gradient(145deg, #ffffff, #ffe8ee);
+            border: 2px solid #f4acb7;
+            border-radius: 16px;
+            padding: 12px 10px;
+            min-width: 85px;
+            box-shadow: 0 6px 15px rgba(214, 90, 127, 0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .counter-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #d65a7f;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .counter-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #88505e;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Book Pages Container */
+        .book-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 35px 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            max-width: 380px;
+            width: 90%;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #f4acb7;
+            position: relative;
+        }
+
+        /* Options for Question */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 280px;
+            margin-top: 20px;
+        }
+
+        .btn-option {
+            background: white;
+            border: 2px solid #f4acb7;
+            padding: 12px 20px;
+            border-radius: 15px;
+            color: #d65a7f;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-option:active {
+            transform: scale(0.97);
+            background: #ffe6ea;
+        }
+
+        /* Typing Effect Text Container */
+        .typed-text {
+            line-height: 1.6;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        /* Audio Control Button Floating */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Pulsing Heart Animation */
+        .pulsing-heart {
+            font-size: 3rem;
+            animation: pulse 1.2s infinite;
+            margin-top: 15px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+
+        /* Balloon Pop Scene - Force Left to Right (LTR) */
+        .balloon-pop-container {
+            display: flex;
+            flex-direction: row;
+            direction: ltr;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            min-height: 80px;
+        }
+
+        .pop-balloon {
+            width: 45px;
+            height: 55px;
+            background: #d65a7f;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+            animation: floatMini 2s infinite ease-in-out alternate;
+        }
+
+        .pop-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 10px;
+            background: #999;
+        }
+
+        @keyframes floatMini {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        .letter-revealed {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #d65a7f;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .signature-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body class="bg-pink">
+
+    <!-- Canvas for stars & butterflies -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Music Control Button -->
+    <button class="music-control" id="musicBtn" onclick="toggleAudio()">🎵</button>
+    <!-- Background Audio Element -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/uu2e26.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Hanging Balloons for decoration -->
+    <div class="top-balloons">
+        <span class="top-balloon">🎈</span>
+        <span class="top-balloon" style="animation-delay: 0.5s;">✨</span>
+        <span class="top-balloon" style="animation-delay: 1s;">🎈</span>
+        <span class="top-balloon" style="animation-delay: 1.5s;">🌸</span>
+        <span class="top-balloon" style="animation-delay: 0.8s;">🎈</span>
+    </div>
+
+    <!-- SCENE 1: The Beginning -->
+    <div class="scene active" id="scene1">
+        <div style="font-size: 2.5rem; margin-bottom: 15px;">🧚‍♀️✨</div>
+        <div id="scene1-text1" class="typed-text" style="font-weight: 600;"></div>
+        <div id="scene1-text2" class="typed-text" style="font-weight: 400; opacity: 0.85; margin-top: 10px;"></div>
+        <button class="btn-custom" id="scene1-btn" style="display: none;" onclick="goToScene(2)">
+            BEGIN ➔
+        </button>
+    </div>
+
+    <!-- SCENE 2: Password -->
+    <div class="scene" id="scene2">
+        <div class="lock-icon">🎁🔒</div>
+        <h2 style="font-size: 1.3rem;">Only one person can unlock this gift.</h2>
+        <p style="margin-top: 10px; font-weight: 600;">Enter the password</p>
+        <p class="subtitle" style="font-size: 0.85rem; color: #88505e;">Note: The password is your name only.</p>
+        
+        <input type="text" id="passInput" class="input-box" placeholder="Write your name..." autocomplete="off">
+        
+        <button class="btn-custom" onclick="checkPassword()">Unlock 🔓</button>
+        
+        <div id="errorMsg" style="margin-top: 15px; color: #c0392b; display: none; font-size: 0.9rem; line-height: 1.4;">
+            ❌ Access Denied<br>
+            <span style="font-size: 0.8rem; color: #666;">Sorry... This gift wasn't made for you.<br>It was created for Malak only.</span>
+        </div>
+    </div>
+
+    <!-- SCENE 3: Identity Verification (Dark Theme) -->
+    <div class="scene bg-dark" id="scene3">
+        <div id="scene3-content" style="font-family: monospace; font-size: 1.1rem; line-height: 2;"></div>
+    </div>
+
+    <!-- SCENE 4: Birthday Date Reveal -->
+    <div class="scene" id="scene4">
+        <div id="dateDisplay" style="font-size: 2.1rem; font-weight: 800; letter-spacing: 2px; color: #d65a7f; direction: ltr;">
+            30 • July • 2007
+        </div>
+        <div id="ageReveal" style="display: none; margin-top: 15px;">
+            <h1 style="font-size: 2.2rem; color: #d65a7f;">Happy 19th Birthday<br>Loka 🎂♥</h1>
+            <p style="margin-top: 10px; font-size: 1.1rem; opacity: 0.9;">Today is your day.</p>
+            <button class="btn-custom" onclick="goToScene(5)">Continue ✨</button>
+        </div>
+    </div>
+
+    <!-- SCENE 5: Wide Gift Box Time Counter -->
+    <div class="scene" id="scene5">
+        <div class="gift-wide-card">
+            <!-- Bow Emoji Ribbon on top -->
+            <div class="gift-bow">🎀</div>
+            
+            <h3 style="font-family: 'Cairo', sans-serif; color: #d65a7f; font-weight: 800; font-size: 1.3rem; margin-top: 5px; direction: rtl;">
+                ✨ Malak Mahmoud ✨
+            </h3>
+            
+            <!-- 3 Columns Counter -->
+            <div class="counter-grid">
+                <div class="counter-box">
+                    <span class="counter-num" id="cntDay">0</span>
+                    <span class="counter-label">Day</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-num" id="cntMonth">0</span>
+                    <span class="counter-label">Month</span>
+                </div>
+                <div class="counter-box">
+                    <span class="counter-num" id="cntYear">0</span>
+                    <span class="counter-label">Year</span>
+                </div>
+            </div>
+
+            <p style="font-size: 0.95rem; line-height: 1.5; opacity: 0.9; direction: ltr;">
+                You have spent<br>
+                <strong style="font-size: 1.2rem; color: #d65a7f;">19 Years</strong><br>
+                making this world brighter.
+            </p>
+            <p style="margin-top: 12px; font-size: 0.85rem; font-style: italic; direction: ltr;">Thank you for being here. ❤️</p>
+        </div>
+        <button class="btn-custom" onclick="goToScene(6)">Next ➔</button>
+    </div>
+
+    <!-- SCENE 6: Balloon Pop Name Reveal (Fixed LTR order) -->
+    <div class="scene" id="scene6">
+        <h2 style="font-size: 1.2rem; margin-bottom: 20px;">Popping balloons for you... 🎈</h2>
+        
+        <!-- Balloon Container with LTR direction -->
+        <div class="balloon-pop-container" id="balloonContainer"></div>
+        
+        <div id="scene6-final" style="display: none; margin-top: 20px;">
+            <h1 style="font-size: 2rem; color: #d65a7f; direction: ltr;">Happy Birthday ya<br>Loka 🎂🎊</h1>
+            <button class="btn-custom" onclick="goToScene(7)">Open Memory Book 📖</button>
+        </div>
+    </div>
+
+    <!-- SCENE 7: Memory Book -->
+    <div class="scene" id="scene7">
+        <div class="book-container">
+            <div style="position: absolute; top: 10px; right: 15px; font-size: 0.8rem; opacity: 0.5;" id="pageIndicator">Page 1/4</div>
+            <p id="bookMessage" class="typed-text" style="font-size: 1.05rem; color: #4a2e35; margin: 15px 0; direction: rtl;"></p>
+        </div>
+        <button class="btn-custom" id="bookNextBtn" onclick="nextBookPage()">NEXT ➔</button>
+    </div>
+
+    <!-- SCENE 8: The Question -->
+    <div class="scene" id="scene8">
+        <h2 style="font-size: 1.5rem; color: #4a2e35; direction: ltr;">Who loves you the most? ❤️</h2>
+        <div class="options-grid">
+            <button class="btn-option" onclick="answerQuestion()">❤️ Eslam</button>
+            <button class="btn-option" onclick="answerQuestion()">❤️ Semsem</button>
+            <button class="btn-option" onclick="answerQuestion()">❤️ Solom</button>
+        </div>
+        <div id="questionResult" style="display: none; margin-top: 25px;">
+            <div style="font-size: 2rem;">😂</div>
+            <h3 style="color: #d65a7f; margin: 8px 0; direction: ltr;">Correct.</h3>
+            <p style="font-weight: 600; direction: ltr;">It was always Eslam.</p>
+            <div class="pulsing-heart">❤️</div>
+            <button class="btn-custom" onclick="goToScene(10)" style="margin-top: 20px;">Your Final Gift 🎁</button>
+        </div>
+    </div>
+
+    <!-- SCENE 10: Final Birthday Message -->
+    <div class="scene" id="scene10">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">🎂🎉✨</div>
+        <div class="book-container" style="max-width: 400px; width: 92%; padding: 25px;">
+            <p id="finalLetter" style="text-align: right; line-height: 1.8; font-size: 1rem; color: #333; font-weight: 600; min-height: 150px; white-space: pre-line; direction: rtl;"></p>
+        </div>
+    </div>
+
+    <!-- SCENE 11: Signature & Closing -->
+    <div class="scene bg-dark" id="scene11">
+        <div id="closingConsole" style="font-family: monospace; opacity: 0.7; font-size: 0.9rem; margin-bottom: 20px; direction: ltr;"></div>
+        <div id="finalSignature" style="display: none; direction: ltr;">
+            <p style="font-size: 0.9rem; letter-spacing: 1px; opacity: 0.8;">Crafted with love by</p>
+            <div class="signature-title">Eslam Ahmed</div>
+            <p style="font-size: 0.9rem; margin-top: 10px; color: #f4acb7;">Especially for</p>
+            <h3 style="color: #fff; font-size: 1.3rem; margin-top: 5px;">Malak Mahmoud ♥</h3>
+            
+            <div id="ultraFinalText" style="display: none; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px;">
+                <p style="font-size: 0.85rem; opacity: 0.7; font-style: italic; margin-bottom: 8px;">
+                    There will never be another gift exactly like this one.
+                </p>
+                <p style="font-size: 0.95rem; color: #f4acb7; font-family: 'Cairo', sans-serif; direction: rtl;">
+                    هذه الهدية خاصة ليكي يا لوكتي ولا أحد يستطيع فتحها غيرك. ❤️
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Audio Controls
+        const bgMusic = document.getElementById('bgMusic');
+        let musicStarted = false;
+
+        function startAudio() {
+            if (!musicStarted && bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    musicStarted = true;
+                    document.getElementById('musicBtn').innerText = '🎶';
+                }).catch(() => {
+                    console.log("Autoplay blocked, user interaction needed");
+                });
+            }
+        }
+
+        function stopAudio() {
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            document.getElementById('musicBtn').innerText = '🔇';
+        }
+
+        function toggleAudio() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                document.getElementById('musicBtn').innerText = '🎶';
+            } else {
+                bgMusic.pause();
+                document.getElementById('musicBtn').innerText = '🔇';
+            }
+        }
+
+        // Scene Switching System
+        function goToScene(sceneNumber) {
+            // Stop audio when entering the last scene (Scene 11)
+            if (sceneNumber === 11) {
+                stopAudio();
+            } else {
+                startAudio();
+            }
+
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById('scene' + sceneNumber);
+            if (target) {
+                target.classList.add('active');
+                triggerSceneLogic(sceneNumber);
+            }
+        }
+
+        // Particle System (Stars & Butterflies)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = (Math.random() - 0.5) * 0.8;
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.isButterfly = Math.random() > 0.85;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                if (this.isButterfly) {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '12px serif';
+                    ctx.fillText('🦋', this.x, this.y);
+                } else {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Helper Typing Function
+        function typeWriter(elementId, text, speed, callback) {
+            let i = 0;
+            const el = document.getElementById(elementId);
+            el.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        // SCENE 1 Logic
+        window.onload = () => {
+            typeWriter('scene1-text1', 'A private gift has been prepared.', 50, () => {
+                setTimeout(() => {
+                    typeWriter('scene1-text2', 'Created for one person only.', 50, () => {
+                        document.getElementById('scene1-btn').style.display = 'inline-flex';
+                    });
+                }, 1500);
+            });
+        };
+
+        // SCENE 2 Logic (Password)
+        function checkPassword() {
+            startAudio();
+            const val = document.getElementById('passInput').value.trim().toLowerCase();
+            const scene2 = document.getElementById('scene2');
+            const err = document.getElementById('errorMsg');
+
+            if (val === 'malak' || val === 'loka') {
+                err.style.display = 'none';
+                goToScene(3);
+            } else {
+                scene2.classList.add('shake');
+                err.style.display = 'block';
+                setTimeout(() => scene2.classList.remove('shake'), 500);
+            }
+        }
+
+        // SCENE Logic Trigger Router
+        function triggerSceneLogic(scene) {
+            if (scene === 3) {
+                // Identity Verification
+                const consoleEl = document.getElementById('scene3-content');
+                consoleEl.innerHTML = "Checking identity...<br>";
+                setTimeout(() => {
+                    consoleEl.innerHTML += "<span style='color:#2ecc71;'>✓ Identity verified</span><br><br>";
+                    setTimeout(() => {
+                        consoleEl.innerHTML += "Welcome back,<br><strong style='font-size:1.5rem; color:#f4acb7;'>Loka ❤️🧚‍♀️</strong><br><br>";
+                        setTimeout(() => {
+                            consoleEl.innerHTML += "We've been waiting for you...";
+                            setTimeout(() => goToScene(4), 2200);
+                        }, 1000);
+                    }, 1000);
+                }, 1200);
+
+            } else if (scene === 4) {
+                // Date Transition
+                setTimeout(() => {
+                    const dateEl = document.getElementById('dateDisplay');
+                    dateEl.style.transition = 'transform 0.8s, opacity 0.8s';
+                    dateEl.style.transform = 'scale(1.2)';
+                    dateEl.style.opacity = '0';
+                    setTimeout(() => {
+                        dateEl.style.display = 'none';
+                        document.getElementById('ageReveal').style.display = 'block';
+                    }, 800);
+                }, 2000);
+
+            } else if (scene === 5) {
+                // 3-Digit Fast Counter (Days: 30, Months: 7, Years: 2007 -> 2026)
+                let d = 0, m = 0, y = 1900;
+                const targetD = 30, targetM = 7, targetY = 2026;
+                const dEl = document.getElementById('cntDay');
+                const mEl = document.getElementById('cntMonth');
+                const yEl = document.getElementById('cntYear');
+
+                const interval = setInterval(() => {
+                    if (d < targetD) d++;
+                    if (m < targetM) m++;
+                    if (y < targetY) y += 4;
+                    if (y > targetY) y = targetY;
+
+                    dEl.innerText = d;
+                    mEl.innerText = m;
+                    yEl.innerText = y;
+
+                    if (d === targetD && m === targetM && y === targetY) {
+                        clearInterval(interval);
+                    }
+                }, 40);
+
+            } else if (scene === 6) {
+                // Balloon Name Reveal (Left to Right)
+                const letters = ['M', 'a', 'l', 'a', 'k'];
+                const container = document.getElementById('balloonContainer');
+                container.innerHTML = '';
+                document.getElementById('scene6-final').style.display = 'none';
+
+                letters.forEach((let, idx) => {
+                    setTimeout(() => {
+                        const b = document.createElement('div');
+                        b.className = 'pop-balloon';
+                        b.innerText = '🎈';
+                        container.appendChild(b);
+
+                        setTimeout(() => {
+                            b.className = 'letter-revealed';
+                            b.innerText = let;
+                        }, 600);
+                    }, idx * 800);
+                });
+
+                setTimeout(() => {
+                    document.getElementById('scene6-final').style.display = 'block';
+                }, letters.length * 800 + 1000);
+
+            } else if (scene === 7) {
+                // Reset Book
+                currentBookPage = 0;
+                showBookPage();
+
+            } else if (scene === 10) {
+                // Final Birthday Letter
+                const letterText = "كل سنة وانتي طيبة ي لوكتي وعقبال سنين كتير وانتي ف افضل حال وبخير وتكون سنه سعيدة عليكي كده 🎂❤️\n\nاحلي حد يتم 19 سنة العمر كله ليكي يحبيبتي 🧚‍♀️  .\n\n  ربنا يخليكي ويبارك فيكي يقطتتي واشوفك احسن حد ف الدنيا دي كلها وربنا يديم عليكي ضحكتك  اللي بحبها هي وخدودك دي 💕😂ويجعل ايامك اللي جايه كلها خير يحبيبي  🎂✨";
+                
+                typeWriter('finalLetter', letterText, 40, () => {
+                    setTimeout(() => {
+                        goToScene(11);
+                    }, 3000);
+                });
+
+            } else if (scene === 11) {
+                // Closing Sequence
+                const c = document.getElementById('closingConsole');
+                c.innerHTML = "Closing experience...<br>";
+                setTimeout(() => {
+                    c.innerHTML += "Saving memories...<br>";
+                    setTimeout(() => {
+                        c.innerHTML += "Gift completed.<br>";
+                        setTimeout(() => {
+                            c.style.display = 'none';
+                            document.getElementById('finalSignature').style.display = 'block';
+                            setTimeout(() => {
+                                document.getElementById('ultraFinalText').style.display = 'block';
+                            }, 1500);
+                        }, 1200);
+                    }, 1000);
+                }, 1000);
+            }
+        }
+
+        // Memory Book Pages
+        const bookPages = [
+            "كل سنة وأنتِ طيبة يبنوتي وسنة حلوة زيك كده  . 🌸",
+            "كل سنة وانت حبيبي واحلي صدفة   . 💖",
+            " وإن شاء الله السنة دي تكون احسن من اللي فاتو ويبقاا كلها خير واشوفك اشطر لوكا في الدنيا. ✨",
+            "Happy Birthday ya loka . 🎂🎁🎉"
+        ];
+        let currentBookPage = 0;
+
+        function showBookPage() {
+            document.getElementById('pageIndicator').innerText = `Page ${currentBookPage + 1}/${bookPages.length}`;
+            typeWriter('bookMessage', bookPages[currentBookPage], 35);
+            if (currentBookPage === bookPages.length - 1) {
+                document.getElementById('bookNextBtn').innerText = "Continue ❤️";
+            } else {
+                document.getElementById('bookNextBtn').innerText = "NEXT ➔";
+            }
+        }
+
+        function nextBookPage() {
+            startAudio();
+            if (currentBookPage < bookPages.length - 1) {
+                currentBookPage++;
+                showBookPage();
+            } else {
+                goToScene(8);
+            }
+        }
+
+        // Question Option Handler
+        function answerQuestion() {
+            startAudio();
+            document.querySelector('.options-grid').style.display = 'none';
+            document.getElementById('questionResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
